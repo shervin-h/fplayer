@@ -10,6 +10,21 @@ android {
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
+    flavorDimensions "flavor-type"
+    productFlavors {
+        dev {
+            dimension "flavor-type"
+            applicationId "shervin.hassanzadeh.dev.flavor"
+        }
+        stage {
+            dimension "flavor-type"
+            applicationId "shervin.hassanzadeh.stage.flavor"
+        }
+        prod {
+            dimension "flavor-type"
+        }
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
