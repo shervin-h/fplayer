@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fplayer/src/core/helpers/file_helper.dart';
+import 'package:fplayer/src/features/file_explorer/presentation/blocs/file_explorer_bloc.dart';
 import 'package:fplayer/src/features/file_explorer/presentation/widgets/album_section.dart';
 import 'package:fplayer/src/features/file_explorer/presentation/widgets/artist_section.dart';
 import 'package:fplayer/src/features/file_explorer/presentation/widgets/folder_section.dart';
@@ -21,7 +23,17 @@ class _ExplorerScreenState extends State<ExplorerScreen>
   void initState() {
     super.initState();
     _tabController = TabController(length: 5, vsync: this);
-    FileHelper.requestStoragePermission();
+    _requestPermissionAndLoadAudios();
+  }
+
+  _requestPermissionAndLoadAudios() {
+    Future.delayed(const Duration(seconds: 1), () {
+      FileHelper.requestStoragePermission().then((isGranted) {
+        if (isGranted) {
+            context.read<FileExplorerBloc>().add(QueryAudioFiles());
+        }
+      });
+    });
   }
 
   @override
@@ -70,21 +82,16 @@ class TabBarSection extends StatelessWidget {
   }
 }
 
-class TabViewSection extends StatefulWidget {
+class TabViewSection extends StatelessWidget {
   const TabViewSection({required this.controller, super.key});
 
   final TabController controller;
 
   @override
-  State<TabViewSection> createState() => _TabViewSectionState();
-}
-
-class _TabViewSectionState extends State<TabViewSection> {
-  @override
   Widget build(BuildContext context) {
     return Expanded(
       child: TabBarView(
-        controller: widget.controller,
+        controller: controller,
         children: [
           SongSection(),
           VideoSection(),

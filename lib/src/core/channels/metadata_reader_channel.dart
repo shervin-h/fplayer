@@ -17,7 +17,7 @@ class MetadataReaderChannel {
 
   static Future<String?> getCoverBase64(String filePath) async {
     try {
-      return await _metadataReaderChannel.invokeMethod<String?>('getCover', {'filePath': filePath});
+      return await _metadataReaderChannel.invokeMethod<String>('getCover', {'filePath': filePath});
     } on PlatformException catch (e) {
       print("Failed to get metadata: ${e.message}");
     } catch (e) {

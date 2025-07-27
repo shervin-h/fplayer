@@ -21,7 +21,6 @@ version: 1.0.0+1
 environment:
   sdk: ^3.6.0
 
-# Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
 # consider running `flutter pub upgrade --major-versions`. Alternatively,
 # dependencies can be manually updated by changing the version numbers below to
@@ -38,26 +37,20 @@ dependencies:
   get_it: ^8.0.3
   dio: ^5.8.0+1
   injectable: ^2.5.0
-#  permission_handler: ^11.3.0 #^12.0.1
   path_provider: ^2.1.5
   file_picker: ^10.2.0
   just_audio: ^0.10.4
-#  flutter_media_metadata: ^1.0.0+1
   audio_service: ^0.18.18
   lottie: ^3.3.1
   shimmer: ^3.0.0
   flutter_svg: ^2.1.0
   dotted_border: ^2.1.0
+  logger: ^2.6.0
+#  better_player: ^0.0.84
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
-  # The "flutter_lints" package below contains a set of recommended lints to
-  # encourage good coding practices. The lint set provided by the package is
-  # activated in the `analysis_options.yaml` file located at the root of your
-  # package. See that file for information about deactivating specific lint
-  # rules and activating additional ones.
   flutter_lints: ^5.0.0
   build_runner: ^2.4.15
   injectable_generator: ^2.7.0
@@ -74,11 +67,12 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-#  assets:
-#    - assets/icons
-#    - assets/images
-#    - assets/lottie
-#    - assets/svg
+  assets:
+    - assets/fonts/
+    - assets/icons/
+    - assets/images/
+    - assets/lottie/
+    - assets/svg/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
@@ -105,6 +99,27 @@ flutter:
          weight: 500
        - asset: assets/fonts/IRANSans-UltraLight.ttf
          weight: 100
+
+   - family: Vazirmatn
+     fonts:
+       - asset: assets/fonts/Vazirmatn-Thin.ttf
+         weight: 100
+       - asset: assets/fonts/Vazirmatn-ExtraLight.ttf
+         weight: 200
+       - asset: assets/fonts/Vazirmatn-Light.ttf
+         weight: 300
+       - asset: assets/fonts/Vazirmatn-Regular.ttf
+         weight: 400
+       - asset: assets/fonts/Vazirmatn-Medium.ttf
+         weight: 500
+       - asset: assets/fonts/Vazirmatn-SemiBold.ttf
+         weight: 600
+       - asset: assets/fonts/Vazirmatn-Bold.ttf
+         weight: 700
+       - asset: assets/fonts/Vazirmatn-ExtraBold.ttf
+         weight: 800
+       - asset: assets/fonts/Vazirmatn-Black.ttf
+         weight: 900
 
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package

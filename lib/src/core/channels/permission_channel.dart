@@ -1,5 +1,6 @@
 import 'package:flutter/services.dart';
 import 'package:fplayer/src/core/extensions/string_extensions.dart';
+import 'package:fplayer/src/core/logger/logger_service.dart';
 
 class PermissionChannel {
   PermissionChannel(this.type);
@@ -25,12 +26,12 @@ class PermissionChannel {
   Future<bool> _requestStoragePermission() async {
     try {
       final result = await _permissionChannel.invokeMethod<String>('requestStoragePermission');
-      print('Permission result: $result');
+      LoggerService.info('Storage permission result: $result');
       return result.isGranted();
-    } on PlatformException catch (e) {
-      print('Failed to get Storage permission: ${e.message}');
-    } catch (e) {
-      print('Failed to get Storage permission - ${e.toString()}');
+    } on PlatformException catch (e, stackTrace) {
+      LoggerService.error('${e.message}', error: e, stackTrace: stackTrace);
+    } catch (e, stackTrace) {
+      LoggerService.error('${e.runtimeType}', error: e, stackTrace: stackTrace);
     }
     return false;
   }
@@ -38,12 +39,12 @@ class PermissionChannel {
   Future<bool> _requestCameraPermission() async {
     try {
       final result = await _permissionChannel.invokeMethod<String>('requestCameraPermission');
-      print('Permission result: $result');
+      LoggerService.info('Camera permission result: $result');
       return result.isGranted();
-    } on PlatformException catch (e) {
-      print('Failed to get Camera permission: ${e.message}');
-    } catch (e) {
-      print('Failed to get Camera permission - ${e.toString()}');
+    } on PlatformException catch (e, stackTrace) {
+      LoggerService.error('${e.message}', error: e, stackTrace: stackTrace);
+    } catch (e, stackTrace) {
+      LoggerService.error('${e.runtimeType}', error: e, stackTrace: stackTrace);
     }
     return false;
   }
@@ -51,12 +52,12 @@ class PermissionChannel {
   Future<bool> _requestSmsPermission() async {
     try {
       final result = await _permissionChannel.invokeMethod<String>('requestSmsPermission');
-      print('Permission result: $result');
+      LoggerService.info('SMS permission result: $result');
       return result.isGranted();
-    } on PlatformException catch (e) {
-      print('Failed to get SMS permission: ${e.message}');
-    } catch (e) {
-      print('Failed to get SMS permission - ${e.toString()}');
+    } on PlatformException catch (e, stackTrace) {
+      LoggerService.error('${e.message}', error: e, stackTrace: stackTrace);
+    } catch (e, stackTrace) {
+      LoggerService.error('${e.runtimeType}', error: e, stackTrace: stackTrace);
     }
     return false;
   }

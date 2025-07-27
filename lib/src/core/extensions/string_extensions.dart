@@ -61,9 +61,9 @@ extension PersianNumbers on String {
 
 extension Path on String {
   String asPath() {
-    final ins = trim();
-    if (ins.isEmpty) return '/';
-    if (ins == '/') return '/';
+    final inst = trim();
+    if (inst.isEmpty) return '/';
+    if (inst == '/') return '/';
     return '/$this';
   }
 }

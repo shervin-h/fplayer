@@ -1,4 +1,5 @@
 import 'package:flutter/services.dart';
+import 'package:fplayer/src/core/logger/logger_service.dart';
 
 class MediaChannel {
   MediaChannel(this.type);
@@ -20,26 +21,28 @@ class MediaChannel {
 
   Future<List<Map<String, dynamic>>> _fetchAudioFiles() async {
     try {
-      final List result = await _mediaChannel.invokeMethod('getAudioFiles');
+      final List result = await _mediaChannel.invokeMethod('queryAudioFiles');
       return result.map((e) => Map<String, dynamic>.from(e)).toList();
-    } on PlatformException catch (e) {
-      print('Failed to load audio files: ${e.message}');
-    } catch (e) {
-      print('Failed to load audio files');
+    } on PlatformException catch (e, stackTrace) {
+      LoggerService.error('${e.message}', error: e, stackTrace: stackTrace);
+      rethrow;
+    } catch (e, stackTrace) {
+      LoggerService.error('$e', error: e, stackTrace: stackTrace);
+      rethrow;
     }
-    return [];
   }
 
   Future<List<Map<String, dynamic>>> _fetchVideoFiles() async {
     try {
-      final List result = await _mediaChannel.invokeMethod('getVideoFiles');
+      final List result = await _mediaChannel.invokeMethod('queryVideoFiles');
       return result.map((e) => Map<String, dynamic>.from(e)).toList();
-    } on PlatformException catch (e) {
-      print('Failed to load video files: ${e.message}');
-    } catch (e) {
-      print('Failed to load video files');
+    } on PlatformException catch (e, stackTrace) {
+      LoggerService.error('${e.message}', error: e, stackTrace: stackTrace);
+      rethrow;
+    } catch (e, stackTrace) {
+      LoggerService.error('$e', error: e, stackTrace: stackTrace);
+      rethrow;
     }
-    return [];
   }
 }
 

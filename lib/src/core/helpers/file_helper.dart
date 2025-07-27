@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:fplayer/src/core/channels/media_channel.dart';
 import 'package:fplayer/src/core/channels/permission_channel.dart';
 import 'package:fplayer/src/core/extensions/string_extensions.dart';
+import 'package:fplayer/src/core/logger/logger_service.dart';
 import 'package:path_provider/path_provider.dart';
 
 abstract class FileHelper {
@@ -19,50 +20,58 @@ abstract class FileHelper {
     return null;
   }
 
-  static Directory? goBackDirectory(Directory current) {
+  static Directory goBackDirectory(Directory current) {
     try {
       return current.parent;
-    } catch (_) {
-      return null;
+    } catch (e, stackTrace) {
+      LoggerService.error('${e.runtimeType}', error: e, stackTrace: stackTrace);
+      rethrow;
     }
   }
 
   static List<FileSystemEntity> loadFiles(Directory dir, {bool recursive = false}) {
     try {
       return dir.listSync(recursive: recursive);
-    } catch (_) {
-      return [];
+    } catch (e, stackTrace) {
+      LoggerService.error('${e.runtimeType}', error: e, stackTrace: stackTrace);
+      rethrow;
     }
   }
 
 
   static List<Directory> loadDirectories(Directory dir) {
-    List<Directory> directories = [];
     try {
+      List<Directory> directories = [];
       loadFiles(dir).forEach((file) {
         if (FileSystemEntity.isDirectorySync(file.path)) {
           directories.add(Directory(file.path));
         }
       });
-    } catch (_) {}
-    return directories;
+      return directories;
+    } catch (e, stackTrace) {
+      LoggerService.error('${e.runtimeType}', error: e, stackTrace: stackTrace);
+      rethrow;
+    }
   }
 
   static List<File> loadAudioFiles(Directory dir) {
-    List<File> audios = [];
     try {
+      List<File> audios = [];
       loadFiles(dir).forEach((file) {
         if (file is File && file.path.isAudioFile()) {
           audios.add(file);
         }
       });
-    } catch (_) {}
-    return audios;
+      return audios;
+    } catch (e, stackTrace) {
+      LoggerService.error('${e.runtimeType}', error: e, stackTrace: stackTrace);
+      rethrow;
+    }
   }
 
   static Future<List<File>> scanAudiosRecursive(Directory dir) async {
-    List<File> audios = [];
     try {
+      List<File> audios = [];
       final files = loadFiles(dir);
       for (final file in files) {
         if (file is File && file.path.isAudioFile()) {
@@ -71,11 +80,19 @@ abstract class FileHelper {
           audios.addAll(await scanAudiosRecursive(file));
         }
       }
-    } catch (_) {}
-    return audios;
+      return audios;
+    } catch (e, stackTrace) {
+      LoggerService.error('${e.runtimeType}', error: e, stackTrace: stackTrace);
+      rethrow;
+    }
   }
 
   static Future<List<Map<String, dynamic>>> queryAudioFiles() async {
-    return await MediaChannel.audio.request();
+    try {
+      return await MediaChannel.audio.request();
+    } catch (e, stackTrace) {
+      LoggerService.error('${e.runtimeType}', error: e, stackTrace: stackTrace);
+      rethrow;
+    }
   }
 }

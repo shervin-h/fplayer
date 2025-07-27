@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fplayer/src/core/logger/app_bloc_observer.dart';
 import 'package:fplayer/src/core/theme/app_theme.dart';
 import 'package:fplayer/src/core/theme/blocs/theme_cubit.dart';
 import 'package:fplayer/src/di/injection_container.dart';
+import 'package:fplayer/src/features/file_explorer/presentation/blocs/file_explorer_bloc.dart';
 import 'package:fplayer/src/routing/app_routing.dart';
 
 enteringApp() async {
   WidgetsFlutterBinding.ensureInitialized();
   await configureDependencies();
+  Bloc.observer = AppBlocObserver();
   runApp(
     MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => ThemeCubit()),
+        BlocProvider(create: (_) => inject<FileExplorerBloc>()),
       ],
       child: FPlayerApp(),
     ),

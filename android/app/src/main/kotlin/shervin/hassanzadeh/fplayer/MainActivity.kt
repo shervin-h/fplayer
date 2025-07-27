@@ -60,12 +60,12 @@ class MainActivity : FlutterActivity(), ActivityCompat.OnRequestPermissionsResul
 
         MethodChannel(flutterEngine.dartExecutor.binaryMessenger, MEDIA_CHANNEL).setMethodCallHandler {
             call, result -> when (call.method) {
-                "getAudioFiles" -> {
+                "queryAudioFiles" -> {
                     val files = queryAudioFiles(applicationContext)
                     result.success(files)
                 }
 
-                "getVideoFiles" -> {
+                "queryVideoFiles" -> {
                     val videos = queryVideoFiles(applicationContext)
                     result.success(videos)
                 }
@@ -153,12 +153,16 @@ class MainActivity : FlutterActivity(), ActivityCompat.OnRequestPermissionsResul
             val albumIndex = it.getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM)
 
             while (it.moveToNext()) {
+                val path = it.getString(dataIndex)
+                val coverArt = getCoverArtBase64(path)
+
                 val map = mapOf(
                     "title" to it.getString(titleIndex),
                     "artist" to it.getString(artistIndex),
                     "path" to it.getString(dataIndex),
                     "album" to it.getString(albumIndex),
                     "dateAdded" to it.getString(dateIndex),
+                    "cover" to coverArt
                 )
                 audioList.add(map)
             }
@@ -235,7 +239,7 @@ class MainActivity : FlutterActivity(), ActivityCompat.OnRequestPermissionsResul
     }
 
     @TargetApi(Build.VERSION_CODES.GINGERBREAD_MR1)
-    private fun getCoverArtBase64(filePath: String): String? {
+    private fun getCoverArtBase64(filePath: String): String {
         return try {
             val retriever = MediaMetadataRetriever()
             retriever.setDataSource(filePath)
@@ -245,10 +249,10 @@ class MainActivity : FlutterActivity(), ActivityCompat.OnRequestPermissionsResul
             if (bytes != null) {
                 Base64.encodeToString(bytes, Base64.NO_WRAP)
             } else {
-                null
+                ""
             }
         } catch (e: Exception) {
-            null
+            ""
         }
     }
 
