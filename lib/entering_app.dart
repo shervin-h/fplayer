@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fplayer/src/core/logger/app_bloc_observer.dart';
+import 'package:fplayer/src/core/presentation/blocs/selected_audio_cubit.dart';
 import 'package:fplayer/src/core/theme/app_theme.dart';
 import 'package:fplayer/src/core/theme/blocs/theme_cubit.dart';
 import 'package:fplayer/src/di/injection_container.dart';
@@ -16,6 +17,7 @@ enteringApp() async {
       providers: [
         BlocProvider(create: (_) => ThemeCubit()),
         BlocProvider(create: (_) => inject<FileExplorerBloc>()),
+        BlocProvider(create: (_) => inject<SelectedAudioCubit>())
       ],
       child: FPlayerApp(),
     ),

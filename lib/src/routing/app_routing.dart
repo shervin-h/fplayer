@@ -15,14 +15,6 @@ final GoRouter router = GoRouter(
       builder: (BuildContext context, GoRouterState state) {
         return const ExplorerScreen();
       },
-      routes: <RouteBase>[
-        GoRoute(
-          path: 'details',
-          builder: (BuildContext context, GoRouterState state) {
-            return const PlayerScreen();
-          },
-        ),
-      ],
     ),
     GoRoute(
       path: AppRouteName.player.asPath(),

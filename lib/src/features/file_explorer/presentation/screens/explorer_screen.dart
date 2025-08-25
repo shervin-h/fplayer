@@ -27,10 +27,10 @@ class _ExplorerScreenState extends State<ExplorerScreen>
   }
 
   _requestPermissionAndLoadAudios() {
-    Future.delayed(const Duration(seconds: 1), () {
+    WidgetsBinding.instance.addPostFrameCallback((duration) {
       FileHelper.requestStoragePermission().then((isGranted) {
         if (isGranted) {
-            context.read<FileExplorerBloc>().add(QueryAudioFiles());
+          context.read<FileExplorerBloc>().add(QueryAudioFiles());
         }
       });
     });

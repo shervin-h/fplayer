@@ -12,6 +12,7 @@
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 
+import '../core/presentation/blocs/selected_audio_cubit.dart' as _i1043;
 import '../features/file_explorer/data/data_source/audio_local_data_source.dart'
     as _i1021;
 import '../features/file_explorer/data/data_source/audio_local_data_source_impl.dart'
@@ -36,6 +37,7 @@ extension GetItInjectableX on _i174.GetIt {
       environment,
       environmentFilter,
     );
+    gh.factory<_i1043.SelectedAudioCubit>(() => _i1043.SelectedAudioCubit());
     gh.factory<_i1021.AudioLocalDataSource>(
         () => _i673.AudioLocalDataSourceImpl());
     gh.factory<_i188.AudioRepository>(

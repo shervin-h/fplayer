@@ -4,8 +4,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fplayer/src/core/extensions/context_extensions.dart';
-import 'package:fplayer/src/di/injection_container.dart';
+import 'package:fplayer/src/core/extensions/string_extensions.dart';
+import 'package:fplayer/src/core/presentation/blocs/selected_audio_cubit.dart';
 import 'package:fplayer/src/features/file_explorer/presentation/blocs/file_explorer_bloc.dart';
+import 'package:fplayer/src/routing/app_route_name.dart';
+import 'package:go_router/go_router.dart';
 
 class SongSection extends StatefulWidget {
   const SongSection({super.key});
@@ -15,7 +18,6 @@ class SongSection extends StatefulWidget {
 }
 
 class _SongSectionState extends State<SongSection> with AutomaticKeepAliveClientMixin {
-
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -35,9 +37,20 @@ class _SongSectionState extends State<SongSection> with AutomaticKeepAliveClient
             itemBuilder: (context, index) {
               final audio = audios[index];
               return ListTile(
-                onTap: () {},
+                onTap: () {
+                  context.read<SelectedAudioCubit>().select(audio);
+                  context.push(AppRouteName.player.asPath());
+                },
                 leading: audio.cover.isNotEmpty
-                    ? Image.memory(base64Decode(audio.cover), fit: BoxFit.cover, width: 50, height: 50)
+                    // Image.memory(base64Decode(audio.cover), fit: BoxFit.cover, width: 50, height: 50)
+                    ? Container(
+                        width: 50,
+                        height: 50,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                          image: DecorationImage(image: MemoryImage(base64Decode(audio.cover)), fit: BoxFit.cover),
+                        ),
+                      )
                     : Icon(Icons.audiotrack, color: context.error2()),
                 title: Text(
                   audio.title,
